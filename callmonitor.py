@@ -52,13 +52,21 @@ while True:
                 print(results)
                 if (results):
                     location = results[0]["entries"][0]["location"]
-                    name = "{}, {}\n{} {}\n{} {}".format(
+                    name = "{}, {}".format(
                         results[0]["entries"][0]["lastname"],
-                        results[0]["entries"][0]["firstname"],
-                        location["street"],
-                        location["streetnumber"],
-                        location["zipcode"],
-                        location["city"])
+                        results[0]["entries"][0]["firstname"])
+
+                    if location["street"]:
+                        name = "{}\n{} {}".format(
+                            name,
+                            location["street"],
+                            location["streetnumber"])
+
+                    if location["zipcode"]:
+                        name = "{}\n{} {}".format(
+                            name,
+                            location["zipcode"],
+                            location["city"])
                 else:
                     name = number
         
