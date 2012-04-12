@@ -8,26 +8,27 @@ import httplib
 import json
 
 pynotify.init("Callmonitor")
+#log = open("callmonitor.log","w")
 
 while True:
     while True:
-        print("Connecting")
+        #log.write("Connecting\n")
         try:
             sock = socket.create_connection(("192.168.178.1",1012))
         except socket.error, msg:
-            #print("Connect failed")
+            #log.write("Connect failed\n")
             time.sleep(60)
             continue
         break
     
-    print("Connected")
+    #log.write("Connected\n")
 
     while True:
         try:
             data = sock.recv(1024)
         except socket.error, msg:
             break
-        print(data)
+        #log.write(data)
         ret = data.split(";")
         if (ret[1] == "RING"):
             title = "Ankommender Anruf"
@@ -46,10 +47,10 @@ while True:
             resp = httpConn.getresponse()
             if (resp.status == 200):
                 respData = resp.read()
-                #print(respData)
+                #log.write(respData)
                 dataArray = json.loads(respData)
                 results = dataArray["response"]["results"]
-                print(results)
+                #log.write(results)
                 if (results):
                     location = results[0]["entries"][0]["location"]
                     name = "{}, {}".format(
