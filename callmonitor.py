@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python -u
 
 import pynotify
 import socket
@@ -12,23 +12,23 @@ pynotify.init("Callmonitor")
 
 while True:
     while True:
-        #log.write("Connecting\n")
+        print("Connecting\n")
         try:
             sock = socket.create_connection(("192.168.178.1",1012))
-        except socket.error, msg:
-            #log.write("Connect failed\n")
+        except:
+            print("Connect failed\n")
             time.sleep(60)
             continue
         break
     
-    #log.write("Connected\n")
+    print("Connected\n")
 
     while True:
         try:
             data = sock.recv(1024)
-        except socket.error, msg:
+        except:
             break
-        #log.write(data)
+        print(data)
         ret = data.split(";")
         if (ret[1] == "RING"):
             title = "Ankommender Anruf"
@@ -42,34 +42,37 @@ while True:
         if (number == ""):
             name = "Unbekannter Anrufer"
         else:
-            httpConn = httplib.HTTPConnection("openapi.klicktel.de")
-            httpConn.request("GET","searchapi/invers?key=b1039fe5c0abbe48596785a8ea25e9d5&number={}".format(number))
-            resp = httpConn.getresponse()
-            if (resp.status == 200):
-                respData = resp.read()
-                #log.write(respData)
-                dataArray = json.loads(respData)
-                results = dataArray["response"]["results"]
-                #log.write(results)
-                if (results):
-                    location = results[0]["entries"][0]["location"]
-                    name = "{}, {}".format(
-                        results[0]["entries"][0]["lastname"],
-                        results[0]["entries"][0]["firstname"])
+            try:
+                httpConn = httplib.HTTPConnection("openapi.klicktel.de")
+                httpConn.request("GET","searchapi/invers?key=b1039fe5c0abbe48596785a8ea25e9d5&number={}".format(number))
+                resp = httpConn.getresponse()
+                if (resp.status == 200):
+                    respData = resp.read()
+                    print(respData)
+                    dataArray = json.loads(respData)
+                    results = dataArray["response"]["results"]
+                    print(results)
+                    if (results):
+                        location = results[0]["entries"][0]["location"]
+                        name = "{}, {}".format(
+                            results[0]["entries"][0]["lastname"],
+                            results[0]["entries"][0]["firstname"])
 
-                    if location["street"]:
-                        name = "{}\n{} {}".format(
-                            name,
-                            location["street"],
-                            location["streetnumber"])
+                        if location["street"]:
+                            name = "{}\n{} {}".format(
+                                name,
+                                location["street"],
+                                location["streetnumber"])
 
-                    if location["zipcode"]:
-                        name = "{}\n{} {}".format(
-                            name,
-                            location["zipcode"],
-                            location["city"])
-                else:
-                    name = number
+                            if location["zipcode"]:
+                                name = "{}\n{} {}".format(
+                                    name,
+                                    location["zipcode"],
+                                    location["city"])
+                    else:
+                        name = number
+            except:
+                name = number
         
         HelloNotification = pynotify.Notification(title,
                                                   name,
