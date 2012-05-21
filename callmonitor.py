@@ -15,6 +15,10 @@ while True:
         print("Connecting\n")
         try:
             sock = socket.create_connection(("192.168.178.1",1012))
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+            sock.setsockopt(socket.SOL_TCP, socket.TCP_KEEPIDLE, 60)
+            sock.setsockopt(socket.SOL_TCP, socket.TCP_KEEPINTVL, 60)
+            sock.setsockopt(socket.SOL_TCP, socket.TCP_KEEPCNT, 2)
         except:
             print("Connect failed\n")
             time.sleep(60)
