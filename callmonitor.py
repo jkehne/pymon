@@ -7,14 +7,16 @@ import time
 import httplib
 import json
 
+API_KEY = "b1039fe5c0abbe48596785a8ea25e9d5"
+FRITZBOX_ADDRESS = "192.168.178.1"
+
 pynotify.init("Callmonitor")
-#log = open("callmonitor.log","w")
 
 while True:
     while True:
         print("Connecting\n")
         try:
-            sock = socket.create_connection(("192.168.178.1",1012))
+            sock = socket.create_connection((FRITZBOX_ADDRESS,1012))
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
             sock.setsockopt(socket.SOL_TCP, socket.TCP_KEEPIDLE, 60)
             sock.setsockopt(socket.SOL_TCP, socket.TCP_KEEPINTVL, 60)
@@ -48,7 +50,7 @@ while True:
         else:
             try:
                 httpConn = httplib.HTTPConnection("openapi.klicktel.de")
-                httpConn.request("GET","searchapi/invers?key=b1039fe5c0abbe48596785a8ea25e9d5&number={}".format(number))
+                httpConn.request("GET","searchapi/invers?key={}&number={}".format(API_KEY, number))
                 resp = httpConn.getresponse()
                 if (resp.status == 200):
                     respData = resp.read()
