@@ -1,5 +1,20 @@
 #!/usr/bin/python -u
 
+# Copyright 2012 Jens Kehne
+#
+# PyMon is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 2 of the License, or
+# (at your option) any later version.
+#
+# PyMon is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with PyMon.  If not, see <http://www.gnu.org/licenses/>.
+
 import pynotify
 import socket
 import sys
@@ -10,7 +25,7 @@ import json
 API_KEY = "b1039fe5c0abbe48596785a8ea25e9d5"
 FRITZBOX_ADDRESS = "192.168.178.1"
 
-pynotify.init("Callmonitor")
+pynotify.init("PyMon")
 
 while True:
     while True:
@@ -84,4 +99,3 @@ while True:
                                                   name,
                                                   "dialog-information")
         HelloNotification.show()
-#http://openapi.klicktel.de/searchapi/invers?key=b1039fe5c0abbe48596785a8ea25e9d5&number=041 
