@@ -1,0 +1,17 @@
+This script is a very simple call monitor for Fritz!Boxes. It connects
+to the router's callmonitor service and displays a notification via
+pynotify on incoming and outgoing calls. It also looks up the caller's
+name using KlickTel and displays the name and address of the remote
+party if available. If no entry is found, only the number is
+displayed.
+
+Instructions:
+
+1. Dial #96*5* on your phone to activate the box' callmonitor service.
+2. Set the hostname of the box in pymon.py if necessary.
+3. Start pymon.py.
+4. ????
+5. PROFIT!!!
+
+If you encounter any bugs (I'm sure there are quite a few :), please
+submit a bug report on GitHub.
